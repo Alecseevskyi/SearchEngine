@@ -1,0 +1,14 @@
+{
+  "config": {
+    "name": "Local File Search Engine",
+    "version": "1.0",
+    "max_response": 5
+  },
+
+  "files": [
+    "../res/file001.txt",
+    "../res/file002.txt",
+    "../res/file003.txt",
+    "../res/file004.txt"
+  ]
+}
