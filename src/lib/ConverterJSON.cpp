@@ -111,12 +111,12 @@ namespace std {
                 for (int j = 0; j < answers.at(i).size(); j++) {
                     string docid = "docid" + to_string(j);
                     if(answers.at(i).size() == 1) {
-                        answersJSON["answers"][numberRequest][docid] = answers.at(i).at(j).first;
-                        answersJSON["answers"][numberRequest][docid] = answers.at(i).at(j).second;
+                        answersJSON["answers"][numberRequest][docid]["document"] = answers.at(i).at(j).first;
+                        answersJSON["answers"][numberRequest][docid]["rank"] = answers.at(i).at(j).second;
                     }
                     else {
-                        answersJSON["answers"][numberRequest]["relevance"][docid] = answers.at(i).at(j).first;
-                        answersJSON["answers"][numberRequest]["relevance"][docid] = answers.at(i).at(j).second;
+                        answersJSON["answers"][numberRequest]["relevance"][docid]["document"] = answers.at(i).at(j).first;
+                        answersJSON["answers"][numberRequest]["relevance"][docid]["rank"] = answers.at(i).at(j).second;
                     }
                 }
             }

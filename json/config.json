@@ -2,7 +2,7 @@
   "config": {
     "name": "Local File Search Engine",
     "version": "1.0",
-    "max_response": 5
+    "max_response": 6
   },
 
   "files": [
