@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../src/lib/InvertedIndex.h"
+#include "InvertedIndex.h"
 #include "vector"
 #include "string"
 

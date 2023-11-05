@@ -48,6 +48,8 @@ for (const auto& inner_vector : result) {
 converterJson.putAnswers(transformed_indices);
 ```
 
+You must have a "json" directory in the root folder of the project, which is created when building the project. Files in this directory may not be located, when trying to convert files, the program will independently make the first files for itself that you can configure. There are no exceptions about the absence of a directory, there are no json files, so be careful.
+
 #### Inverted Index
 
 This library is used for indexing files in multithreaded mode. Indexing of files is necessary so that in the future we can give the user, first of all, more similar, possible answers to his requests.

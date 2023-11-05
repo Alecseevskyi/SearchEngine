@@ -1,11 +1,30 @@
 cmake_minimum_required(VERSION 3.25)
 project(program_tests)
 
-add_subdirectory(lib/googletest-main)
+set(SrcFiles
+        ../src/InvertedIndex.cpp
+        ../src/SearchServer.cpp
+        ../src/ConverterJSON.cpp
+        )
+
+set(TestsFiles
+        FinalTest.cpp
+        StandardTest.cpp
+        )
+
+
+include_directories(../include)
+include_directories(../include/nlohmann/)
+
+add_executable(GtestTests ${TestsFiles} ${SrcFiles})
+
+add_subdirectory(include/googletest-main)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(runTests StandardTest.cpp FinalTest.cpp)
-add_library(IndexLibrary ../src/lib/InvertedIndex.h ../src/lib/InvertedIndex.cpp)
-add_library(ServerLibrary ../src/lib/SearchServer.cpp ../src/lib/SearchServer.h)
-target_link_libraries(runTests gtest gtest_main)
-target_link_libraries(runTests IndexLibrary ServerLibrary)
+target_include_directories(GtestTests PUBLIC ${MY_INCLUDE_DIR})
+
+target_link_libraries(GtestTests gtest gtest_main)
+
+include(GoogleTest)
+
+gtest_discover_tests(GtestTests)

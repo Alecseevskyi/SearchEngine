@@ -1,7 +1,6 @@
-#include <string>
 #include <vector>
-#include "lib/SearchServer.h"
-#include "lib/ConverterJSON.h"
+#include "SearchServer.h"
+#include "ConverterJSON.h"
 
 using namespace std;
 int main() {

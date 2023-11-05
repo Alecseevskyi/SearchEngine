@@ -1,19 +1,54 @@
 #include "ConverterJSON.h"
 #include "string"
-#include "include/nlohmann/json.hpp"
+#include "json.hpp"
 #include "fstream"
 #include "iostream"
 using json = nlohmann::json;
 
 namespace std {
 
+    bool checkJson(json& json, fstream& file) {
+
+        if (!file.is_open()) {
+            file.close();
+            return true;
+        } else {
+            // Если файл существует, то пытаемся получить с него данные
+            try {
+                json << file;
+            }
+            catch(...){
+                // Если проблемы с файлом, вызываем блок error и очищаем файл
+                file.close();
+                fstream::trunc;
+                file.close();
+
+                return true;
+            }
+        }
+        return false;
+    }
+
     vector<string> ConverterJSON::GetTextDocument() {
         json config;
+        string filename = "../json/config";
+        fstream file;
+        bool error = checkJson(config, file);
 
-        // Парсим данные
-        ifstream file("../json/config.json"); // Путь идет от Build
-        file >> config;
-        file.close();
+
+        // Если проблемы с файлом, пересобираем его
+        if (error) {
+            file.open(filename, std::ios::out);
+            config["config"]["name"] = "Local File Search Engine";
+            config["config"]["version"] = "1.0";
+            config["config"]["max_response"] = 0;
+
+            vector<string> empty;
+            config["files"] = empty;
+
+            file << config;
+            file.close();
+        }
 
         // Получаем пути всех файлов из ресурсов
         vector<string> files = config["files"];
@@ -41,8 +76,8 @@ namespace std {
                     output.pop_back();
                 }
                 answerLineFile = output;
+                answer.insert(answer.end(), answerLineFile);
             }
-            answer.insert(answer.end(), answerLineFile);
             file.close();
         }
 
@@ -51,22 +86,43 @@ namespace std {
 
     int ConverterJSON::GetResponseLimit() {
         json config;
+        string filename = "../json/config";
+        fstream file;
+        bool error = checkJson(config, file);
 
-        // Парсим данные
-        ifstream file("../json/config.json"); // Путь идет от Build
-        file >> config;
-        file.close();
+        // Если проблемы с файлом, пересобираем его
+        if (error) {
+            file.open(filename, std::ios::out);
+            config["config"]["name"] = "Local File Search Engine";
+            config["config"]["version"] = "1.0";
+            config["config"]["max_response"] = 0;
+
+            vector<string> empty;
+            config["files"] = empty;
+
+            file << config;
+            file.close();
+        }
 
         return config["config"]["max_response"];
     }
 
     vector<string> ConverterJSON::GetRequests() {
         json requests;
+        string filename = "../json/requests.json";
+        fstream file;
+        bool error = checkJson(requests, file);
 
-        // Парсим данные
-        ifstream file("../json/requests.json"); // Путь идет от Build
-        file >> requests;
-        file.close();
+
+        // Если проблемы с файлом, пересобираем его
+        if (error) {
+            vector<string> empty;
+            file.open(filename, std::ios::out);
+            requests["requests"] = empty;
+            file << requests;
+            file.close();
+            return empty;
+        }
 
         return requests["requests"];
     }
@@ -86,7 +142,6 @@ namespace std {
             // Если файл существует, очищаем его
             file.close();
             file.open(filename, std::ios::out | std::ios::trunc);
-
         }
 
         // Создаем json

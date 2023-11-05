@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../src/lib/SearchServer.h"
+#include "SearchServer.h"
 #include "vector"
 #include "string"
 
