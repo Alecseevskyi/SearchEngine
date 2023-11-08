@@ -8,7 +8,7 @@ set(MY_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(MY_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
 set(PROJECT_NAME Local_File_Search_Engine)
-set(SOURCE src/SearchEngine.cpp src/InvertedIndex.cpp src/ConverterJSON.cpp src/SearchServer.cpp)
+set(SOURCE src/main.cpp src/InvertedIndex.cpp src/ConverterJSON.cpp src/SearchServer.cpp)
 #== Directories ==#
 file(MAKE_DIRECTORY json)
 file(MAKE_DIRECTORY res)

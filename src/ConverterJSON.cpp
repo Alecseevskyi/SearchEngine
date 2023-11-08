@@ -7,7 +7,8 @@ using json = nlohmann::json;
 
 namespace std {
 
-    bool checkJson(json& json, fstream& file) {
+    bool checkJson(json& json, fstream& file, const string& path_json) {
+        file.open(path_json);
 
         if (!file.is_open()) {
             file.close();
@@ -33,22 +34,30 @@ namespace std {
         json config;
         string filename = "../json/config";
         fstream file;
-        bool error = checkJson(config, file);
+        bool error = checkJson(config, file, filename);
 
 
         // Если проблемы с файлом, пересобираем его
         if (error) {
-            file.open(filename, std::ios::out);
-            config["config"]["name"] = "Local File Search Engine";
-            config["config"]["version"] = "1.0";
-            config["config"]["max_response"] = 0;
+            try {
+                cout << "Total error configuration files (config.json)! Invalid path to config files, reset config files..." << endl;
+                file.open(filename, std::ios::out);
+                config["config"]["name"] = "Local File Search Engine";
+                config["config"]["version"] = "1.0";
+                config["config"]["max_response"] = 0;
 
-            vector<string> empty;
-            config["files"] = empty;
+                vector<string> empty;
+                config["files"] = empty;
 
-            file << config;
-            file.close();
+                file << config;
+                file.close();
+                cout << "Done." << endl;
+            }
+            catch (...) {
+                cout << "Failed to reset settings." << endl;
+            }
         }
+
 
         // Получаем пути всех файлов из ресурсов
         vector<string> files = config["files"];
@@ -88,20 +97,27 @@ namespace std {
         json config;
         string filename = "../json/config";
         fstream file;
-        bool error = checkJson(config, file);
+        bool error = checkJson(config, file, filename);
 
         // Если проблемы с файлом, пересобираем его
         if (error) {
-            file.open(filename, std::ios::out);
-            config["config"]["name"] = "Local File Search Engine";
-            config["config"]["version"] = "1.0";
-            config["config"]["max_response"] = 0;
+            cout << "Total error configuration files (config.json)! Invalid path to config files, reset config files..." << endl;
+            try {
+                file.open(filename, std::ios::out);
+                config["config"]["name"] = "Local File Search Engine";
+                config["config"]["version"] = "1.0";
+                config["config"]["max_response"] = 0;
 
-            vector<string> empty;
-            config["files"] = empty;
+                vector<string> empty;
+                config["files"] = empty;
 
-            file << config;
-            file.close();
+                file << config;
+                file.close();
+                cout << "Done." << endl;
+            }
+            catch (...) {
+                cout << "Failed to reset settings." << endl;
+            }
         }
 
         return config["config"]["max_response"];
@@ -111,17 +127,24 @@ namespace std {
         json requests;
         string filename = "../json/requests.json";
         fstream file;
-        bool error = checkJson(requests, file);
+        bool error = checkJson(requests, file, filename);
 
 
         // Если проблемы с файлом, пересобираем его
         if (error) {
-            vector<string> empty;
-            file.open(filename, std::ios::out);
-            requests["requests"] = empty;
-            file << requests;
-            file.close();
-            return empty;
+            try {
+                cout << "Total error configuration files (requests.json)! Invalid path to config files, reset config files..." << endl;
+                vector<string> empty;
+                file.open(filename, std::ios::out);
+                requests["requests"] = empty;
+                file << requests;
+                file.close();
+                cout << "Done." << endl;
+                return empty;
+            }
+            catch (...) {
+                cout << "Failed to reset settings." << endl;
+            }
         }
 
         return requests["requests"];
