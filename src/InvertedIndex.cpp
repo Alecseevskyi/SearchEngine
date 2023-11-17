@@ -34,7 +34,7 @@ namespace std {
         vector<string> files = docs;
 
         // Создаем многопоточный режим
-        int num_threads = 2;
+        int num_threads = std::thread::hardware_concurrency();
         int sentences_per_thread = files.size() / num_threads;
 
         vector<thread> threads;
